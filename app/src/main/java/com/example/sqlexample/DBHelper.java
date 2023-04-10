@@ -9,9 +9,12 @@ import androidx.annotation.Nullable;
 
 public class DBHelper extends SQLiteOpenHelper {
 
-    private  static String CREATE_TABLE = "Create table "+ DatabaseSchema.TableDB.TABLE_NAME +" "+
-            DatabaseSchema.TableDB._ID+ "INTEGER_PRIMARY_KEY " +" (" + DatabaseSchema.TableDB.COLUMN_FIRSTNAME+
-            "TEXT, " + DatabaseSchema.TableDB.TABLE_NAME + "TEXT)";
+    private  static String CREATE_TABLE = "Create table "+ DatabaseSchema.TableDB.TABLE_NAME +" ("+
+            DatabaseSchema.TableDB._ID+ "INTEGER PRIMARY KEY, " + DatabaseSchema.TableDB.COLUMN_FIRSTNAME+
+            "TEXT, " + DatabaseSchema.TableDB.COLUMN_LASTNAME + "TEXT)";
+
+    private static String DELETE_ENTRIES = "DROP TABLE IF EXISTS "+ DatabaseSchema.TableDB.TABLE_NAME;
+
    private static final int Databaseversion =1;
     private static final String DATABASE_NAME ="Name.db";
 
@@ -24,12 +27,14 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db) {
+    public void onCreate(@NonNull SQLiteDatabase db) {
+
         db.execSQL(CREATE_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        db.execSQL(DELETE_ENTRIES);
+        onCreate(db);
     }
 }

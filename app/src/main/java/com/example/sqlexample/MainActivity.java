@@ -55,4 +55,15 @@ public class MainActivity extends AppCompatActivity {
         }
         cursor.close();
     }
+
+    private void updateTable(){
+        SQLiteDatabase db = dbhelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(DatabaseSchema.TableDB.COLUMN_FIRSTNAME,"John");
+        String selection = DatabaseSchema.TableDB.COLUMN_FIRSTNAME + " LIKE ?";
+        String[] selectArgs = {"vikas"};
+
+        int counter = db.update(DatabaseSchema.TableDB.TABLE_NAME,values,selection,selectArgs);
+        Log.i("Counter", String.valueOf(counter));
+    }
 }
